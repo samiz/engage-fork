@@ -1,0 +1,71 @@
+namespace AB
+
+types
+    ABProgram;
+    Integer, String, Decimal <: Type;
+    Decl;
+    ClearStmt, ConverseStmt,
+    HandlerStmt, IfStmt,
+    MapStmt, OverlayStmt,
+    PrintStmt, ReturnStmt    <: Stmt;
+    Var, Lit                 <: Expr;
+
+tokens
+  ' ', '\r', '\n' :: skip
+  ';', '(', ')' :: mark
+  'dcl', 'enddcl', 'integer', 'char', 'dec',
+  'clear', 'converse', 'handler', 'if', 'endif', 'map', 'to', 'overlay', 'print', 'return' :: word
+  number :: Num
+  string :: Id % split by?
+
+handlers
+    EOF                 -> push ABProgram(data,code)
+                           where code := pop# Stmt,
+                                 data := pop# Decl
+    Num                 -> push Lit(this)
+    Id                  -> push Var(this)
+
+    'dcl'               -> lift DCL
+    'enddcl'            -> drop DCL
+    ';' upon DCL        -> push Decl(v,t)
+                           where t := pop Type,
+                                 v := pop Var
+    'integer' upon DCL  -> push Integer
+    'char'    upon DCL  -> push String(n)
+                           where x := await (Lit upon BRACKET) with CHAR,
+                                 n := tear x
+    'dec'     upon DCL  -> push Decimal(n)
+                           where x := await (Lit upon BRACKET) with DEC,
+                                 n := tear x
+    '(' upon CHAR       -> lift BRACKET
+    '(' upon DEC        -> lift BRACKET
+    '(' upon HANDLER    -> lift BRACKET
+    ')'                 -> drop BRACKET
+
+    'clear'             -> push ClearStmt(view)
+                           where view := await Var
+    'converse'          -> push ConverseStmt(win)
+                           where win := await Var with CONVERSE
+    % ----------------- begin DO ------------------------------------------------------------------------
+    %'do'                -> push DoStmt(doFrom,doTo,doBy,doIndex,block1,doWhile,block2)
+    %                       where ...
+    %'from' upon DO      -> next Expr push 
+    % -----------------  end  DO ------------------------------------------------------------------------
+    'handler'           -> push HandlerStmt(obj,proc)
+                           where obj  := await Var,
+                                 proc := await (Var upon BRACKET) with HANDLER
+    'if'                -> push IfStmt(cond,branch)
+                           where cond   := await Expr with IF,
+                                 branch := await* Stmt
+    'endif'             -> trim Stmt*
+    'map'               -> push MapStmt(source,target)
+                           where source := await Expr with MAP,
+                                 target := await Var with MAP
+    'overlay'           -> push OverlayStmt(source,target)
+                           where source := await Expr with OVERLAY,
+                                 target := await Var with OVERLAY
+    'print'             -> push PrintStmt(message)
+                           where message := await Expr
+    'return'            -> push ReturnStmt
+
+%    V upon MAP         -> assert exists Decl(v,t) such that v == this

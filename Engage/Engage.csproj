@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{267857DC-5DA3-486A-8AD1-B8E5FE4EE999}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Engage</RootNamespace>
+    <AssemblyName>Engage</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="A\Assignment.cs" />
+    <Compile Include="A\EngSpec.cs" />
+    <Compile Include="A\HandlerDecl.cs" />
+    <Compile Include="A\Lexeme.cs" />
+    <Compile Include="A\Parser.cs" />
+    <Compile Include="A\TokenDecl.cs" />
+    <Compile Include="A\Trigger.cs" />
+    <Compile Include="A\TypeDecl.cs" />
+    <Compile Include="A\op\AwaitAction.cs" />
+    <Compile Include="A\op\AwaitStarAction.cs" />
+    <Compile Include="A\op\DropReaction.cs" />
+    <Compile Include="A\op\LiftReaction.cs" />
+    <Compile Include="A\op\PopAction.cs" />
+    <Compile Include="A\op\PopHashAction.cs" />
+    <Compile Include="A\op\PopStarAction.cs" />
+    <Compile Include="A\op\PushReaction.cs" />
+    <Compile Include="A\op\Reaction.cs" />
+    <Compile Include="A\op\TearAction.cs" />
+    <Compile Include="A\op\TrimReaction.cs" />
+    <Compile Include="A\op\WrapReaction.cs" />
+    <Compile Include="B\ConstPlan.cs" />
+    <Compile Include="B\HandleAction.cs" />
+    <Compile Include="B\HandlerPlan.cs" />
+    <Compile Include="B\SystemPlan.cs" />
+    <Compile Include="B\TokenPlan.cs" />
+    <Compile Include="B\TypePlan.cs" />
+    <Compile Include="C\CsClass.cs" />
+    <Compile Include="C\CsConstructor.cs" />
+    <Compile Include="C\CsEnum.cs" />
+    <Compile Include="C\CsExeField.cs" />
+    <Compile Include="C\CsMethod.cs" />
+    <Compile Include="C\CsTop.cs" />
+    <Compile Include="C\stmt\CsStmt.cs" />
+    <Compile Include="C\stmt\IfThenElse.cs" />
+    <Compile Include="C\stmt\ScheduleStmt.cs" />
+    <Compile Include="C\stmt\SimpleStmt.cs" />
+    <Compile Include="C\stmt\SwitchCaseStmt.cs" />
+    <Compile Include="C\stmt\WhileStmt.cs" />
+    <Compile Include="D\CsClass.cs" />
+    <Compile Include="D\CsComplexStmt.cs" />
+    <Compile Include="D\CsConstructor.cs" />
+    <Compile Include="D\CsEnum.cs" />
+    <Compile Include="D\CsExeField.cs" />
+    <Compile Include="D\CsMethod.cs" />
+    <Compile Include="D\CsSimpleStmt.cs" />
+    <Compile Include="D\CsStmt.cs" />
+    <Compile Include="D\CsStmtList.cs" />
+    <Compile Include="D\CsTop.cs" />
+    <Compile Include="GenExt.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="A\EngageMetaLexer.cs" />
+    <Compile Include="A\EngageMetaParser.cs" />
+    <Compile Include="A\EngageToken.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="A\Parser.g" />
+    <None Include="A\Parser.tg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\takmela-lexer\takmela-lexer.csproj">
+      <Project>{746C3720-35E3-43C2-AED4-6C6155C62F9D}</Project>
+      <Name>takmela-lexer</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
