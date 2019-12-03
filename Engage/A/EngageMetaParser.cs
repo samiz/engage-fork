@@ -135,6 +135,7 @@ namespace Engage.front
 			if (la (EngageToken.QUOTED)) 
 			{
 				string literal = consumeText (EngageToken.QUOTED);
+				literal = preprocess (literal);
 				LiteralLex lex = new LiteralLex ();
 				lex.Literal = literal;
 				lex.Special = false;
@@ -208,6 +209,7 @@ namespace Engage.front
 			if (la (EngageToken.QUOTED)) 
 			{
 				string terminal = consumeText (EngageToken.QUOTED);
+				terminal = preprocess (terminal);
 				trig.Terminal = terminal;
 			}
 			else if (la (EngageToken.KW_EOF)) 
@@ -456,6 +458,17 @@ namespace Engage.front
 				fail ("Expected operation");
 				return null;
 			}
+		}
+
+		private string preprocess(string s)
+		{
+			return stripQuotes (s);
+		}
+
+		private string stripQuotes(string s)
+		{
+			string s2 = s.Substring (1, s.Length - 2);
+			return s2;
 		}
 
 		private string interpretChar(string s)
